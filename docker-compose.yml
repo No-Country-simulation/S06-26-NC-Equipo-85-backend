@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: appbit-postgres
+    environment:
+      POSTGRES_DB: appbit
+      POSTGRES_USER: appbit
+      POSTGRES_PASSWORD: appbit
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appbit -d appbit"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: appbit-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: appbit
+      DB_USERNAME: appbit
+      DB_PASSWORD: appbit
+      CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
