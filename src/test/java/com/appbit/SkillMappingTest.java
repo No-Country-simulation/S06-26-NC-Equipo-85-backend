@@ -1,5 +1,6 @@
 package com.appbit;
 
+import com.appbit.common.model.SkillCategory;
 import com.appbit.skill.model.Skill;
 import com.appbit.skill.repository.SkillRepository;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class SkillMappingTest {
         // 1. Crear una nueva habilidad basada en tu clase Java
         Skill skill = new Skill();
         skill.setName("Java 21");
-        skill.setCategory("Backend");
+        skill.setCategory(SkillCategory.BACKEND);
 
         // 2. Guardarla en la base de datos
         Skill savedSkill = skillRepository.save(skill);
@@ -29,5 +30,6 @@ public class SkillMappingTest {
         // 3. Verificar que se le asignó un ID automático y que los datos coinciden
         assertThat(savedSkill.getId()).isNotNull();
         assertThat(savedSkill.getName()).isEqualTo("Java 21");
+        assertThat(savedSkill.getCategory()).isEqualTo(SkillCategory.BACKEND);
     }
 }

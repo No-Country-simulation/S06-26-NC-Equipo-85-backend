@@ -1,7 +1,14 @@
 package com.appbit.course.model;
 
+import java.util.List;
+import java.util.UUID;
+
+import com.appbit.common.model.LevelType;
+
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "course")
@@ -9,16 +16,24 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID) 
+    private UUID id;
 
     @Column(nullable = false)
     private String name;
 
     private String provider;
-    private String level;
+
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    private LevelType level;
+    
     private String url;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CourseSkill> skills;
 }
