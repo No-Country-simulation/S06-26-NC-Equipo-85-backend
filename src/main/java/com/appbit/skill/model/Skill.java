@@ -1,5 +1,7 @@
 package com.appbit.skill.model;
 
+import com.appbit.common.model.SkillCategory;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +20,6 @@ public class Skill {
     @Column(nullable = false, length = 150)
     private String name;
 
-    @Column(length = 100)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private SkillCategory category;
 }

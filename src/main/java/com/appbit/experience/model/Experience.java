@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.ZonedDateTime;
 
+import com.appbit.common.model.ExperienceType;
+
 @Entity
 @Table(name = "experience")
 @Getter
@@ -28,7 +30,8 @@ public class Experience {
     @Column(name = "speaker_role")
     private String speakerRole;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ExperienceType type;
 
     @Column(name = "content_url")
     private String contentUrl;

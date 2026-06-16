@@ -1,5 +1,7 @@
 package com.appbit.course.model;
 
+import com.appbit.common.model.SkillCategory;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +21,9 @@ public class Course {
     private String name;
 
     private String provider;
-    private String level;
+
+    @Enumerated(EnumType.STRING)
+    private SkillCategory level;
+    
     private String url;
 }
