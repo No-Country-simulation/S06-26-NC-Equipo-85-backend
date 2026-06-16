@@ -2,7 +2,11 @@ package com.appbit.experience.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode; 
+import org.hibernate.type.SqlTypes;
 import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.UUID;
 
 import com.appbit.common.model.ExperienceType;
 
@@ -12,11 +16,12 @@ import com.appbit.common.model.ExperienceType;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Experience {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID) 
+    private UUID id;
 
     @Column(nullable = false)
     private String title;
@@ -31,6 +36,7 @@ public class Experience {
     private String speakerRole;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private ExperienceType type;
 
     @Column(name = "content_url")
@@ -38,4 +44,8 @@ public class Experience {
 
     @Column(name = "date_time")
     private ZonedDateTime dateTime;
+
+    @OneToMany(mappedBy = "experience", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExperienceSkill> skills;
+
 }
