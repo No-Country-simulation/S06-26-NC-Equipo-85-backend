@@ -1,5 +1,9 @@
 package com.appbit.course.model;
 
+import java.util.UUID;
+
+import com.appbit.skill.model.Skill;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,15 +13,18 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CourseSkill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id; 
 
-    @Column(name = "course_id", nullable = false)
-    private Integer courseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course; 
 
-    @Column(name = "skill_id", nullable = false)
-    private Integer skillId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "skill_id", nullable = false)
+    private Skill skill; 
 }

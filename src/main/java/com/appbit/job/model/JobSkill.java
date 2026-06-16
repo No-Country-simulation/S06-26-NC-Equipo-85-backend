@@ -1,5 +1,7 @@
 package com.appbit.job.model;
 
+import java.util.UUID;
+import com.appbit.skill.model.Skill;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,15 +11,18 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder 
 public class JobSkill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id; 
 
-    @Column(name = "job_id", nullable = false)
-    private Integer jobId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_id", nullable = false)
+    private Job job;
 
-    @Column(name = "skill_id", nullable = false)
-    private Integer skillId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "skill_id", nullable = false)
+    private Skill skill;
 }
