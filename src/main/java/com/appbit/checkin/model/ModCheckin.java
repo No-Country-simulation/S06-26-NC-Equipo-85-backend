@@ -1,6 +1,6 @@
 package com.appbit.checkin.model;
 
-import com.appbit.common.model.MoodEmoji;
+import com.appbit.common.enums.MoodEmoji;
 import com.appbit.profile.model.Profile;
 import jakarta.persistence.*;
 import lombok.*;

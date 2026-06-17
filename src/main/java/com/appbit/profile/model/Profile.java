@@ -1,6 +1,6 @@
 package com.appbit.profile.model;
 
-import com.appbit.common.model.*;
+import com.appbit.common.enums.*;
 import com.appbit.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;

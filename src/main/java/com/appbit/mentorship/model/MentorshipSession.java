@@ -1,7 +1,7 @@
 package com.appbit.mentorship.model;
 
 import com.appbit.profile.model.Profile;
-import com.appbit.common.model.SessionStatus;
+import com.appbit.common.enums.SessionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
