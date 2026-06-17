@@ -1,6 +1,6 @@
 package com.appbit.user.model;
 
-import com.appbit.common.model.UserRole;
+import com.appbit.common.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode; 

@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.appbit.common.model.ExperienceType;
+import com.appbit.common.enums.ExperienceType;
 
 @Entity
 @Table(name = "experience")

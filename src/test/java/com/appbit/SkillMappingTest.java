@@ -1,6 +1,6 @@
 package com.appbit;
 
-import com.appbit.common.model.SkillCategory;
+import com.appbit.common.enums.SkillCategory;
 import com.appbit.skill.model.Skill;
 import com.appbit.skill.repository.SkillRepository;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.appbit.common.model;
+package com.appbit.common.enums;
 
 public enum SessionStatus {
     PENDING,

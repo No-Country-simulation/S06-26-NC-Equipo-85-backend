@@ -3,7 +3,7 @@ package com.appbit.skill.model;
 import java.util.List; 
 import java.util.UUID;
 
-import com.appbit.common.model.SkillCategory;
+import com.appbit.common.enums.SkillCategory;
 import com.appbit.course.model.CourseSkill;      
 import com.appbit.experience.model.ExperienceSkill;
 import com.appbit.job.model.JobSkill;

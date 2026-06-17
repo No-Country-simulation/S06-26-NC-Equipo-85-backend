@@ -3,7 +3,7 @@ package com.appbit.course.model;
 import java.util.List;
 import java.util.UUID;
 
-import com.appbit.common.model.LevelType;
+import com.appbit.common.enums.LevelType;
 
 import jakarta.persistence.*;
 import lombok.*;
