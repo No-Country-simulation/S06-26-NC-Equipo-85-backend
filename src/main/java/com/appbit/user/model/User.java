@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode; 
 import org.hibernate.type.SqlTypes;
-import java.time.OffsetDateTime;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -27,10 +28,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(name = "role") 
+    @Column(name = "role", columnDefinition = "user_role") 
     private UserRole role;
 
     @Builder.Default
     @Column(name = "created_at", nullable = false, updatable = false)
-    private OffsetDateTime createdAt = OffsetDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
