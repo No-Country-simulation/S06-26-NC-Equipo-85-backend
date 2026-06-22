@@ -22,18 +22,19 @@ public class Profile {
     @Id
     private UUID id; 
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id")
     private User user;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
 
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
     @JdbcTypeCode(SqlTypes.NAMED_ENUM) 
     private GenderType gender;
 
