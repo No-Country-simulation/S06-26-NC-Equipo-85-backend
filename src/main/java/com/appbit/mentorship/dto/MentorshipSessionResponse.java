@@ -14,6 +14,8 @@ public class MentorshipSessionResponse {
 
     private UUID id;
 
+    private String title;
+
     @JsonProperty("mentor_profile_id")
     private UUID mentorProfileId;
 
