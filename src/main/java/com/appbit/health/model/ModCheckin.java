@@ -1,4 +1,4 @@
-package com.appbit.checkin.model;
+package com.appbit.health.model;
 
 import com.appbit.common.enums.MoodEmoji;
 import com.appbit.profile.model.Profile;

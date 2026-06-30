@@ -28,7 +28,7 @@ public class ProfileService {
         Profile profile = profileRepository.findById(user.getId())
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Profile not found for the authenticated user"));
-        return toResponse(profile);
+        return toResponse(profile, user);
     }
 
     @Transactional
@@ -59,7 +59,7 @@ public class ProfileService {
             profile.setWhatsapp(request.getContact().getWhatsapp());
         }
 
-        return toResponse(profileRepository.save(profile));
+        return toResponse(profileRepository.save(profile), user);
     }
 
     private User getAuthenticatedUser() {
@@ -69,8 +69,9 @@ public class ProfileService {
                         HttpStatus.UNAUTHORIZED, "Authenticated user not found"));
     }
 
-    private ProfileResponse toResponse(Profile profile) {
+    private ProfileResponse toResponse(Profile profile, User user) {
         return ProfileResponse.builder()
+                .role(user.getRole())
                 .name(profile.getFullName())
                 .birthDate(profile.getBirthDate())
                 .gender(profile.getGender())
