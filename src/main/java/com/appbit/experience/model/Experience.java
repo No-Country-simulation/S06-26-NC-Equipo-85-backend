@@ -2,13 +2,19 @@ package com.appbit.experience.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode; 
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
+
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import com.appbit.common.enums.ExperienceType;
+import com.appbit.profile.model.Profile;
 
 @Entity
 @Table(name = "experience")
@@ -45,7 +51,19 @@ public class Experience {
     @Column(name = "date_time")
     private ZonedDateTime dateTime;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "mentor_profile_id", nullable = false)
+    private Profile mentorProfile;
+
     @OneToMany(mappedBy = "experience", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExperienceSkill> skills;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private OffsetDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private OffsetDateTime updatedAt;
 
 }
