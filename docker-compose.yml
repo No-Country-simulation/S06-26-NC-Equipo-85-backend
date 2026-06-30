@@ -22,6 +22,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - .env
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: postgres
@@ -30,6 +32,7 @@ services:
       DB_USERNAME: appbit
       DB_PASSWORD: appbit
       CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
     ports:
       - "8080:8080"
 
