@@ -23,6 +23,9 @@ public class MentorshipSession {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false, length = 150)
+    private String title;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_profile_id", nullable = false)
     private Profile mentorProfile;

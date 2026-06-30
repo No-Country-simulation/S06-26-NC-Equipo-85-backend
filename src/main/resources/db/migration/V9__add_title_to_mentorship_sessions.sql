@@ -1,0 +1,2 @@
+ALTER TABLE mentorship_sessions
+ADD COLUMN title VARCHAR(150) NOT NULL;

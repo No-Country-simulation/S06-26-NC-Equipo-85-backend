@@ -45,6 +45,7 @@ public class MentorshipService {
         MentorshipSession session = MentorshipSession.builder()
                 .mentorProfile(mentorProfile)
                 .menteeProfile(null)
+                .title(request.getTitle())
                 .scheduleDate(request.getScheduleDate().atOffset(ZoneOffset.UTC))
                 .status(SessionStatus.AVAILABLE)
                 .isPracticeInvitation(request.isPractice())
@@ -200,6 +201,7 @@ public class MentorshipService {
     private MentorshipSessionResponse toResponse(MentorshipSession session) {
         return MentorshipSessionResponse.builder()
                 .id(session.getId())
+                .title(session.getTitle())
                 .mentorProfileId(session.getMentorProfile().getId())
                 .menteeProfileId(session.getMenteeProfile() != null
                         ? session.getMenteeProfile().getId() : null)
@@ -212,6 +214,7 @@ public class MentorshipService {
     private MentorshipSummaryResponse toSummary(MentorshipSession session) {
         return MentorshipSummaryResponse.builder()
                 .id(session.getId())
+                .title(session.getTitle())
                 .mentorProfileId(session.getMentorProfile().getId())
                 .menteeProfileId(session.getMenteeProfile() != null
                         ? session.getMenteeProfile().getId() : null)
