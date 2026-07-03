@@ -77,12 +77,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleUnexpectedException(
             Exception exception,
             HttpServletRequest request) {
+
+        exception.printStackTrace();
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
         ApiErrorResponse response = ApiErrorResponse.builder()
                 .timestamp(OffsetDateTime.now())
                 .status(status.value())
                 .error(status.getReasonPhrase())
-                .message("Unexpected server error")
+                .message(exception.getMessage())
                 .path(request.getRequestURI())
                 .fieldErrors(List.of())
                 .build();

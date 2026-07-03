@@ -21,13 +21,13 @@ public class OrientationController {
         this.orientationService = orientationService;
     }
 
-    @PostMapping("/orientar")
+    @PostMapping("/v1/guidance")
     @ResponseStatus(HttpStatus.OK)
     public OrientationResponse orient(@Valid @RequestBody OrientationRequest request) {
         return orientationService.orient(request);
     }
 
-    @PostMapping("/salud")
+    @PostMapping("/health")
     @ResponseStatus(HttpStatus.OK)
     public HealthResponse checkHealth(@Valid @RequestBody HealthRequest request) {
         return orientationService.checkHealth(request);

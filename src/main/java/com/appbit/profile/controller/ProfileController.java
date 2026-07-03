@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ public class ProfileController {
     @GetMapping
     @Operation(summary = "Get the authenticated user's profile")
     public ResponseEntity<ProfileResponse> getProfile() {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
         return ResponseEntity.ok(profileService.getProfile());
     }
 
