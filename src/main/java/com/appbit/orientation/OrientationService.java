@@ -13,6 +13,7 @@ import com.appbit.skill.model.Skill;
 import com.appbit.skill.repository.SkillRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class OrientationService {
      * @param request solicitud de orientación
      * @return resultado de orientación profesional
      */
+    @Transactional(readOnly = true)
     public OrientationResponse orient(OrientationRequest request) {
 
         ///Obtiene el perfil asociado al usuario solicitado.
