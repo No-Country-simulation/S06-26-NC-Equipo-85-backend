@@ -1,8 +1,11 @@
 package com.appbit.orientation;
 
+import com.appbit.course.dto.CourseResponse;
 import com.appbit.course.model.Course;
+import com.appbit.job.dto.JobMatchResponse;
 import com.appbit.job.model.Job;
 import com.appbit.orientation.dto.*;
+import com.appbit.skill.dto.SkillResponse;
 import com.appbit.skill.model.Skill;
 import com.appbit.user.model.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -53,7 +56,7 @@ public class OrientationController {
     @GetMapping("/jobs/matches")
     @ResponseStatus(HttpStatus.OK)
     @SecurityRequirement(name = "bearerAuth")
-    public List<JobMatch> getJobMatches(@AuthenticationPrincipal User currentUser) {
+    public List<JobMatchResponse> getJobMatches(@AuthenticationPrincipal User currentUser) {
         return orientationService.getJobMatches(currentUser.getId());
     }
 
@@ -67,14 +70,14 @@ public class OrientationController {
     @GetMapping("/skills")
     @ResponseStatus(HttpStatus.OK)
     @SecurityRequirement(name = "bearerAuth")
-    public List<Skill> getSkills() {
+    public List<SkillResponse> getSkills() {
         return orientationService.getSkills();
     }
 
     @GetMapping("/courses")
     @ResponseStatus(HttpStatus.OK)
     @SecurityRequirement(name = "bearerAuth")
-    public List<Course> getCourses() {
+    public List<CourseResponse> getCourses() {
         return orientationService.getCourses();
     }
 }

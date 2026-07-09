@@ -3,10 +3,13 @@ package com.appbit.job.controller;
 import com.appbit.job.dto.JobDetailResponse;
 import com.appbit.job.dto.JobMatchResponse;
 import com.appbit.job.service.JobService;
+import com.appbit.orientation.OrientationService;
+import com.appbit.user.model.User;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,12 +29,25 @@ import java.util.UUID;
 public class JobController {
 
     private final JobService jobService;
+    private final OrientationService orientationService;
 
     @GetMapping("/matches")
     public ResponseEntity<List<JobMatchResponse>> getJobMatches(
+            @AuthenticationPrincipal User currentUser,
             @RequestParam(defaultValue = "0") double minMatch) {
 
-        return ResponseEntity.ok(jobService.getJobMatches(minMatch));
+        List<JobMatchResponse> matches = orientationService.getJobMatches(currentUser.getId())
+                .stream()
+                .filter(match -> match.matchRate() >= minMatch)
+                .map(match -> new JobMatchResponse(
+                        match.jobId(),
+                        match.company(),
+                        match.title(),
+                        match.matchRate()
+                ))
+                .toList();
+
+        return ResponseEntity.ok(matches);
     }
 
     @GetMapping("/{id}")
