@@ -52,24 +52,28 @@ public class OrientationController {
      */
     @GetMapping("/jobs/matches")
     @ResponseStatus(HttpStatus.OK)
+    @SecurityRequirement(name = "bearerAuth")
     public List<JobMatch> getJobMatches(@AuthenticationPrincipal User currentUser) {
         return orientationService.getJobMatches(currentUser.getId());
     }
 
     @GetMapping("/jobs/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @SecurityRequirement(name = "bearerAuth")
     public Job getJobById(@PathVariable UUID id) {
         return orientationService.getJobById(id);
     }
 
     @GetMapping("/skills")
     @ResponseStatus(HttpStatus.OK)
+    @SecurityRequirement(name = "bearerAuth")
     public List<Skill> getSkills() {
         return orientationService.getSkills();
     }
 
     @GetMapping("/courses")
     @ResponseStatus(HttpStatus.OK)
+    @SecurityRequirement(name = "bearerAuth")
     public List<Course> getCourses() {
         return orientationService.getCourses();
     }
