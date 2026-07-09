@@ -4,8 +4,10 @@ import com.appbit.course.model.Course;
 import com.appbit.job.model.Job;
 import com.appbit.orientation.dto.*;
 import com.appbit.skill.model.Skill;
+import com.appbit.user.model.User;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,10 +23,16 @@ public class OrientationController {
         this.orientationService = orientationService;
     }
 
+    /**
+     * Genera una orientación profesional para el usuario autenticado.
+     *
+     * @param currentUser usuario autenticado, resuelto desde el JWT
+     * @return resultado de orientación profesional
+     */
     @PostMapping("/v1/guidance")
     @ResponseStatus(HttpStatus.OK)
-    public OrientationResponse orient(@Valid @RequestBody OrientationRequest request) {
-        return orientationService.orient(request);
+    public OrientationResponse orient(@AuthenticationPrincipal User currentUser) {
+        return orientationService.orient(currentUser.getId());
     }
 
     @PostMapping("/health")
@@ -34,15 +42,15 @@ public class OrientationController {
     }
 
     /**
-     * Obtiene las vacantes compatibles para un usuario.
+     * Obtiene las vacantes compatibles para el usuario autenticado.
      *
-     * @param userId identificador del usuario
+     * @param currentUser usuario autenticado, resuelto desde el JWT
      * @return lista de vacantes compatibles
      */
     @GetMapping("/jobs/matches")
     @ResponseStatus(HttpStatus.OK)
-    public List<JobMatch> getJobMatches(@RequestParam UUID userId) {
-        return orientationService.getJobMatches(userId);
+    public List<JobMatch> getJobMatches(@AuthenticationPrincipal User currentUser) {
+        return orientationService.getJobMatches(currentUser.getId());
     }
 
     @GetMapping("/jobs/{id}")
