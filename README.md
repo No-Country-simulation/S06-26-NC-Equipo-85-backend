@@ -1,99 +1,101 @@
-# S06-26-NC-Equipo-85 Backend — App BiT API
+# S06-26-NC-Equipo-85 Backend — API de App BiT
 
-Backend API for App BiT, a No Country simulation project focused on helping underrepresented groups through personalized orientation, education, employability, mentoring, structured experiences and mental health support.
+API de backend para App BiT, un proyecto de simulación de No Country centrado en ayudar a grupos subrepresentados mediante orientación personalizada, educación, empleabilidad, mentoría, experiencias estructuradas y apoyo a la salud mental.
 
-Current phase: foundation / backend setup.
-
----
-
-## Table of Contents
-
-* Project Overview
-* Current Status
-* Technologies Used
-* Project Structure
-* Local Setup Instructions
-* Docker Instructions
-* Maven Commands
-* API Documentation
-* Environment Variables
-* Architecture Guidelines
-* Backend Roadmap
-* Frontend Integration
-* Git Workflow
-* Team Notes
-* Challenge Description
+Fase actual: configuración de la base/backend.
 
 ---
 
-## Project Overview
+## Índice
 
-App BiT is an MVP designed to provide integrated guidance for people from underrepresented groups who face barriers related to employment, education and mental health.
-
-The backend is responsible for:
-
-* Authentication and authorization
-* User profile management
-* Orientation engine
-* Employability matching
-* Courses and learning paths
-* Mental health check-ins
-* Mentorship scheduling
-* Structured experiences
-* AI-powered recommendations
-
----
-
-## Current Status
-
-Current phase: Foundation.
-
-Already configured:
-
-* Java 21
-* Spring Boot 3.3.x
-* Maven
-* PostgreSQL 16
-* Flyway Migration
-* Spring Data JPA
-* Spring Web
-* Spring Security
-* Jakarta Validation
-* Lombok
-* OpenAPI / Swagger
-* Docker
-* Docker Compose
-
-Planned:
-
-* Authentication
-* Orientation engine
-* AI integration
-* Mental health module
-* Mentorship module
-* Courses and learning paths
+- Resumen del proyecto
+- Estado actual
+- Tecnologías utilizadas
+- Estructura del proyecto
+- Estructuración de carpetas
+- Instrucciones de configuración local
+- Instrucciones de Docker
+- Comandos de Maven
+- Documentación de la API
+- Endpoints de la API
+- Variables de entorno
+- Directrices de arquitectura
+- Hoja de ruta del backend
+- Integración del frontend
+- Flujo de trabajo de Git
+- Notas del equipo
+- Descripción del desafío
 
 ---
 
-## Technologies Used
+## Resumen del proyecto
 
-* Java 21
-* Spring Boot 3.3.x
-* Maven
-* PostgreSQL 16
-* Flyway Migration
-* Spring Data JPA
-* Spring Web
-* Spring Security
-* Jakarta Validation
-* Lombok
-* OpenAPI / Swagger
-* Docker
-* Docker Compose
+App BiT es un MVP diseñado para proporcionar orientación integral a personas de grupos subrepresentados que enfrentan barreras relacionadas con el empleo, la educación y la salud mental.
+
+El backend se encarga de:
+
+- Autenticación y autorización
+- Gestión de perfiles de usuario
+- Motor de orientación
+- Búsqueda de empleo
+- Cursos y rutas de aprendizaje
+- Seguimiento de la salud mental
+- Programación de mentorías
+- Experiencias estructuradas
+- Recomendaciones basadas en IA
 
 ---
 
-## Project Structure
+## Estado actual
+
+Fase actual: Fundación
+
+Ya configurado:
+
+- Java 21
+- Spring Boot 3.3.x
+- Maven
+- PostgreSQL 16
+- Flyway Migration
+- Spring Data JPA
+- Spring Web
+- Spring Security
+- Jakarta Validation
+- Lombok
+- OpenAPI / Swagger
+- Docker
+- Docker Compose
+
+Planificado:
+
+- Autenticación
+- Motor de orientación
+- Integración de IA
+- Módulo de salud mental
+- Módulo de mentoría
+- Cursos y rutas de aprendizaje
+
+---
+
+## Tecnologías utilizadas
+
+- Java 21
+- Spring Boot 3.3.x
+- Maven
+- PostgreSQL 16
+- Flyway Migration
+- Spring Data JPA
+- Spring Web
+- Spring Security
+- Jakarta Validation
+- Lombok
+- OpenAPI / Swagger
+- Docker
+- Docker Compose
+
+---
+
+## Estructura del proyecto
 
 ```text
 com.appbit
@@ -107,41 +109,138 @@ com.appbit
 
 ---
 
-## Local Setup Instructions
+## Estructuración de carpetas
 
-### Prerequisites
+Estructura principal del repositorio, organizada por paquete y funcionalidad (feature-based):
 
-* Java 21
-* Maven
-* Docker
-* Docker Compose
-* PostgreSQL 16
+```text
+S06-26_Backend/
+├── src/
+│   ├── main/
+│   │   ├── java/com/appbit/
+│   │   │   ├── auth/                  # Registro, login y JWT
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   └── service/
+│   │   │   ├── common/                # Elementos compartidos entre módulos
+│   │   │   │   ├── enums/
+│   │   │   │   └── exception/
+│   │   │   ├── config/                # Configuración de Spring (seguridad, CORS, OpenAPI, etc.)
+│   │   │   ├── course/                # Catálogo de cursos
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   ├── model/
+│   │   │   │   ├── repository/
+│   │   │   │   └── service/
+│   │   │   ├── experience/            # Experiencias estructuradas
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   ├── model/
+│   │   │   │   ├── repository/
+│   │   │   │   └── service/
+│   │   │   ├── gemini/                # Integración con IA (Gemini)
+│   │   │   │   ├── controller/
+│   │   │   │   └── service/
+│   │   │   ├── health/                # Check-ins de salud mental
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   ├── model/
+│   │   │   │   ├── repository/
+│   │   │   │   └── service/
+│   │   │   ├── job/                   # Ofertas de empleo y matching
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   ├── model/
+│   │   │   │   ├── repository/
+│   │   │   │   └── service/
+│   │   │   ├── mentorship/            # Sesiones de mentoría
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   ├── model/
+│   │   │   │   ├── repository/
+│   │   │   │   └── service/
+│   │   │   ├── orientation/           # Motor de orientación
+│   │   │   │   ├── dto/
+│   │   │   │   ├── OrientationController.java
+│   │   │   │   └── OrientationService.java
+│   │   │   ├── profile/               # Perfil de usuario
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   ├── model/
+│   │   │   │   ├── repository/
+│   │   │   │   └── service/
+│   │   │   ├── security/              # Filtros y utilidades de seguridad/JWT
+│   │   │   ├── skill/                 # Catálogo de habilidades
+│   │   │   │   ├── controller/
+│   │   │   │   ├── dto/
+│   │   │   │   ├── model/
+│   │   │   │   ├── repository/
+│   │   │   │   └── service/
+│   │   │   └── user/                  # Entidad y repositorio de usuario
+│   │   │       ├── model/
+│   │   │       └── repository/
+│   │   └── resources/
+│   │       ├── db/migration/          # Scripts de migración de Flyway
+│   │       ├── application.yml        # Configuración base
+│   │       ├── application-dev.yml    # Configuración del perfil "dev"
+│   │       └── application-prod.yml   # Configuración del perfil "prod"
+│   └── test/
+│       └── java/com/appbit/           # Pruebas unitarias e de integración
+├── Dockerfile
+├── docker-compose.yml
+├── pom.xml
+└── README.md
+```
 
-### Run locally
+Cada módulo de negocio (`auth`, `profile`, `course`, `job`, `skill`, `mentorship`, `experience`, `health`, `orientation`, `gemini`) sigue la misma subestructura interna:
 
-1. Clone the repository.
-2. Configure environment variables.
-3. Start PostgreSQL (Docker recommended).
-4. Run Flyway migrations automatically on startup.
-5. Start the application from IntelliJ IDEA or Maven.
+- `controller/`: expone los endpoints REST.
+- `dto/`: define los contratos de entrada y salida de la API.
+- `model/`: entidades JPA, aisladas de los DTO.
+- `repository/`: interfaces de acceso a datos (Spring Data JPA).
+- `service/`: contiene la lógica de negocio.
 
 ---
 
-## Docker Instructions
+## Instrucciones de configuración local
+
+### Requisitos previos
+
+- Java 21
+- Maven
+- Docker
+- Docker Compose
+- PostgreSQL 16
+
+### Ejecución local
+
+1. Clonar el repositorio.
+
+2. Configurar las variables de entorno.
+
+3. Iniciar PostgreSQL (se recomienda Docker).
+
+4. Ejecutar las migraciones de Flyway automáticamente al iniciar la aplicación.
+
+5. Iniciar la aplicación desde IntelliJ IDEA o Maven.
+
+---
+
+## Instrucciones de Docker
 
 ```bash
 docker compose up --build
 ```
 
-The API will be available at:
+La API estará disponible en:
 
-```text
+```texto
 http://localhost:8080
 ```
 
 ---
 
-## Maven Commands
+## Comandos de Maven
 
 ```bash
 mvn clean compile
@@ -161,201 +260,199 @@ mvn clean install
 
 ---
 
-## API Documentation
+## Documentación de la API
 
-Swagger UI:
+Interfaz de usuario de Swagger:
 
-```text
+```texto
 http://localhost:8080/swagger-ui/index.html
 ```
 
-OpenAPI JSON:
+JSON de OpenAPI:
 
-```text
+```texto
 http://localhost:8080/v3/api-docs
 ```
 
 ---
 
-## Environment Variables
+## Endpoints de la API
 
-| Variable               | Description              | Default                                                                                    |
+Todos los endpoints, salvo los de autenticación, requieren un token JWT (`Authorization: Bearer <token>`).
+
+### Autenticación (`/api/v1/auth`)
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| POST | `/api/v1/auth/register` | Registra un nuevo usuario y devuelve tokens JWT. |
+| POST | `/api/v1/auth/login` | Autentica a un usuario y devuelve tokens JWT. |
+| POST | `/api/v1/auth/refresh` | Renueva el token de acceso a partir de un refresh token válido. |
+
+### Perfil (`/api/v1/profile`)
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| GET | `/api/v1/profile` | Obtiene el perfil del usuario autenticado. |
+| PUT | `/api/v1/profile` | Crea o actualiza el perfil del usuario autenticado (upsert). |
+
+### Habilidades (`/api/v1/skills`)
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| GET | `/api/v1/skills` | Recupera el catálogo completo de habilidades técnicas disponibles. |
+
+### Cursos (`/api/v1/courses`)
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| GET | `/api/v1/courses` | Recupera el catálogo completo de cursos de formación. |
+
+### Empleos (`/api/v1/jobs`)
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| GET | `/api/v1/jobs/matches?minMatch=` | Lista las ofertas de empleo compatibles con el usuario, filtradas por porcentaje mínimo de coincidencia. |
+| GET | `/api/v1/jobs/{id}` | Obtiene el detalle de una oferta de empleo específica. |
+
+### Orientación (`/api`)
+
+Motor de orientación que combina habilidades, cursos y empleos para guiar al usuario.
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| POST | `/api/v1/guidance` | Genera una recomendación de orientación personalizada para el usuario. |
+| POST | `/api/health` | Evalúa el estado de salud mental a partir de las respuestas enviadas. |
+| GET | `/api/jobs/matches?userId=` | Obtiene las vacantes compatibles para un usuario dado. |
+| GET | `/api/jobs/{id}` | Obtiene el detalle de una vacante de empleo por su id. |
+| GET | `/api/skills` | Lista las habilidades registradas en el motor de orientación. |
+| GET | `/api/courses` | Lista los cursos registrados en el motor de orientación. |
+
+### Mentorías (`/api/v1/mentorships`)
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| POST | `/api/v1/mentorships/sessions` | Crea un espacio de sesión disponible (solo mentores). |
+| GET | `/api/v1/mentorships/sessions?status&practice&date` | Lista sesiones con filtros opcionales (por defecto, estado AVAILABLE). |
+| GET | `/api/v1/mentorships/sessions/{id}` | Obtiene el detalle de una sesión específica. |
+| POST | `/api/v1/mentorships/sessions/{id}/book` | Reserva una sesión disponible (solo mentees). |
+| PATCH | `/api/v1/mentorships/sessions/{id}/cancel` | Cancela una sesión (el mentor o el mentee asignado). |
+| PATCH | `/api/v1/mentorships/sessions/{id}/complete` | Marca una sesión como completada (solo el mentor de la sesión). |
+| GET | `/api/v1/mentorships/my-sessions` | Obtiene las sesiones del usuario autenticado, ya sea como mentor o mentee. |
+
+### Salud mental (`/api/v1/health/checkins`)
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| POST | `/api/v1/health/checkins` | Registra un nuevo check-in de salud mental. |
+| GET | `/api/v1/health/checkins` | Obtiene el historial de check-ins del usuario autenticado. |
+| GET | `/api/v1/health/checkins/{id}` | Obtiene el detalle de un check-in específico. |
+| POST | `/api/v1/health/checkins/{id}/empathic-response` | Genera una respuesta empática mediante IA para un check-in dado. |
+
+### Experiencias (`/api/v1/experiences`)
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| POST | `/api/v1/experiences` | Crea una experiencia estructurada (solo mentores). |
+| GET | `/api/v1/experiences?skillId&type` | Lista experiencias, con filtros opcionales por habilidad y tipo. |
+| GET | `/api/v1/experiences/{id}` | Obtiene el detalle de una experiencia específica. |
+| PUT | `/api/v1/experiences/{id}` | Actualiza una experiencia (solo el mentor propietario). |
+| DELETE | `/api/v1/experiences/{id}` | Elimina una experiencia (solo el mentor propietario). |
+
+### Pruebas de IA (`/api/test`)
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| GET | `/api/test/gemini` | Endpoint de prueba para verificar la integración con la IA de Gemini. |
+
+---
+
+## Variables de entorno
+
+| Variable | Descripción | Predeterminado |
+
 | ---------------------- | ------------------------ | ------------------------------------------------------------------------------------------ |
-| SPRING_PROFILES_ACTIVE | Active Spring profile    | dev                                                                                        |
-| DB_HOST                | PostgreSQL host          | localhost                                                                                  |
-| DB_PORT                | PostgreSQL port          | 5432                                                                                       |
-| DB_NAME                | PostgreSQL database name | appbit                                                                                     |
-| DB_USERNAME            | PostgreSQL username      | appbit                                                                                     |
-| DB_PASSWORD            | PostgreSQL password      | appbit                                                                                     |
-| CORS_ALLOWED_ORIGINS   | Allowed frontend origins | [http://localhost:3000,http://localhost:5173](http://localhost:3000,http://localhost:5173) |
 
-Important rules:
+| SPRING_PROFILES_ACTIVE | Perfil Spring activo | dev |
 
-* Never commit secrets.
-* Never commit production credentials.
-* Use environment variables whenever possible.
+| DB_HOST | Host de PostgreSQL | localhost |
 
----
+| DB_PORT | Puerto de PostgreSQL | 5432 |
 
-## Architecture Guidelines
+| DB_NAME | Nombre de la base de datos PostgreSQL | appbit |
 
-Package-by-feature approach.
+| DB_USERNAME | Nombre de usuario de PostgreSQL | appbit |
 
-Features:
+| DB_PASSWORD | Contraseña de PostgreSQL | appbit |
 
-* auth
-* profile
-* orientation
-* health
+| CORS_ALLOWED_ORIGINS | Orígenes de frontend permitidos | [http://localhost:3000,http://localhost:5173](http://localhost:3000,http://localhost:5173) |
 
-Guidelines:
+Reglas importantes:
 
-* Controllers expose REST endpoints.
-* Services contain business logic.
-* DTOs define API contracts.
-* Entities are isolated from API responses.
-* Flyway is the source of truth for database migrations.
+- Nunca confirmes secretos.
 
----
+- Nunca confirmes credenciales de producción.
 
-## Backend Roadmap
+- Usa variables de entorno siempre que sea posible.
 
-### Phase 0 — Foundation
+--
 
-* Project setup
-* PostgreSQL
-* Flyway
-* Swagger
-* Docker
+## Directrices de arquitectura
 
-### Phase 1 — Profile & Auth
+Enfoque por paquete y funcionalidad.
 
-* User registration
-* Login
-* JWT authentication
-* Profile management
+Características:
 
-### Phase 2 — Orientation
+- Autenticación
+- Perfil
+- Orientación
+- Estado
 
-* Gap calculation
-* Suggested learning paths
-* Employability matching
+Directrices:
 
-### Phase 3 — Mental Health
+- Los controladores exponen puntos finales REST.
 
-* Check-ins
-* AI recommendations
-* Crisis escalation flow
+- Los servicios contienen lógica de negocio.
 
-### Phase 4 — Advanced Features
+- Los DTO definen contratos de API.
 
-* Mentorship
-* Experiences
-* Events
-* Notifications
+- Las entidades están aisladas de las respuestas de la API.
 
-### Phase 5 — QA & Deployment
-
-* Testing
-* Monitoring
-* Production deployment
+- Flyway es la fuente de información fidedigna para las migraciones de bases de datos.
 
 ---
 
-## Frontend Integration
+## Hoja de ruta del backend
 
-Frontend repository:
+### Fase 0 — Fundamentos
 
-S06-26-NC-Equipo-85
+- Configuración del proyecto
+- PostgreSQL
+- Flyway
+- Swagger
+- Docker
 
-Expected initial endpoints:
+### Fase 1 — Perfil y autenticación
 
-| Method | Endpoint       | Purpose                            |
-| ------ | -------------- | ---------------------------------- |
-| POST   | /auth/register | Create user account                |
-| POST   | /auth/login    | Authenticate user                  |
-| GET    | /profile       | Get user profile                   |
-| PUT    | /profile       | Update user profile                |
-| POST   | /orientar      | Get orientation and suggested path |
-| POST   | /salud         | Submit mental health check-in      |
+- Registro de usuarios
+- Inicio de sesión
+- Autenticación JWT
+- Gestión de perfiles
 
-Before consuming an endpoint, frontend and backend teams should define:
+### Fase 2 — Orientación
 
-* URL
-* Method
-* Request body
-* Response contract
-* Error contract
+- Cálculo de brechas
+- Rutas de aprendizaje sugeridas
+- Alineación con la empleabilidad
 
----
+### Fase 3 — Salud mental
 
-## Git Workflow
+- Seguimiento
+- Recomendaciones de IA
+- Flujo de escalamiento de crisis
 
-Recommended branch naming:
+### Fase 4 — Funcionalidades avanzadas
 
-```text
-feature/short-description
-fix/short-description
-chore/short-description
-docs/short-description
-```
-
-Examples:
-
-```text
-feature/orientation-endpoint
-feature/auth-login
-fix/security-config
-docs/update-readme
-```
-
-Commit convention:
-
-```text
-type: short description
-```
-
-Examples:
-
-```text
-feature: create orientation endpoint
-chore: configure flyway
-docs: update readme
-```
-
----
-
-## Team Notes
-
-This repository contains the backend application only.
-
-Frontend and backend are maintained separately.
-
-Repository:
-
-S06-26-NC-Equipo-85-backend
-
----
-
-## Challenge Description
-
-TODO: Paste the official App BiT challenge statement here.
-
----
-
-## Maintainers
-
-No Country Simulation — S06-26-NC-Equipo-85
-
-Backend Team
-
-* Gabriel
-* Backend contributors to be added
-
----
-
-## License
-
-This project is part of a No Country simulation and is intended for educational and portfolio purposes.
-
-License status: pending.
+- Mentoría
+- Experiencias
+- Eventos
+- Notificaciones
