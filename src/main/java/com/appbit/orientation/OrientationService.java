@@ -2,6 +2,7 @@ package com.appbit.orientation;
 
 import com.appbit.course.model.Course;
 import com.appbit.course.repository.CourseRepository;
+import com.appbit.gemini.service.GeminiService;
 import com.appbit.job.model.Job;
 import com.appbit.job.model.JobSkill;
 import com.appbit.job.repository.JobRepository;
@@ -27,6 +28,7 @@ public class OrientationService {
     private final JobRepository jobRepository;
     private final CourseRepository courseRepository;
     private final SkillRepository skillRepository;
+    private final GeminiService geminiService;
 
     /**
      * Genera una orientación profesional basada en el perfil del usuario.
@@ -174,12 +176,37 @@ public class OrientationService {
                 ? 100.0
                 : (double) gapItems.size() / (userSkills.size() + gapItems.size()) * 100;
 
+        String prompt = """
+        Eres un orientador profesional.
+    
+        Analiza la siguiente información y genera una recomendación breve (máximo 5 líneas).
+    
+        Gap: %s
+    
+        Skills faltantes:
+        %s
+    
+        Cursos sugeridos:
+        %s
+    
+        Vacantes compatibles:
+        %s
+        """.formatted(
+                    gapPorcentual,
+                    gapItems,
+                    suggestedCourses,
+                    jobMatches
+            );
+
+        String aiRecommendation = geminiService.generateRecommendation(prompt);
+
         return new OrientationResponse(
                 gapPorcentual,
                 gapItems,
                 suggestedCourses,
                 jobMatches,
-                confianza
+                confianza,
+                aiRecommendation
         );
     }
 

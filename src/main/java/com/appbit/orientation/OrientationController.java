@@ -5,6 +5,7 @@ import com.appbit.job.model.Job;
 import com.appbit.orientation.dto.*;
 import com.appbit.skill.model.Skill;
 import com.appbit.user.model.User;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,12 +32,14 @@ public class OrientationController {
      */
     @PostMapping("/v1/guidance")
     @ResponseStatus(HttpStatus.OK)
+    @SecurityRequirement(name = "bearerAuth")
     public OrientationResponse orient(@AuthenticationPrincipal User currentUser) {
         return orientationService.orient(currentUser.getId());
     }
 
     @PostMapping("/health")
     @ResponseStatus(HttpStatus.OK)
+    @SecurityRequirement(name = "bearerAuth")
     public HealthResponse checkHealth(@Valid @RequestBody HealthRequest request) {
         return orientationService.checkHealth(request);
     }
