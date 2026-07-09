@@ -34,14 +34,14 @@ public class OrientationService {
      * <p>Actualmente devuelve información simulada mientras se implementa
      * la lógica real del motor de matching.</p>
      *
-     * @param request solicitud de orientación
+     * @param userId identificador del usuario autenticado
      * @return resultado de orientación profesional
      */
     @Transactional(readOnly = true)
-    public OrientationResponse orient(OrientationRequest request) {
+    public OrientationResponse orient(UUID userId) {
 
         ///Obtiene el perfil asociado al usuario solicitado.
-        Profile profile = profileRepository.findById(request.userId())
+        Profile profile = profileRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
 
         /**
