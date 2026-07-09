@@ -23,6 +23,7 @@ public record OrientationResponse(
         List<GapItem> gapItems,
         List<SuggestedCourse> trayectoriaSugerida,
         List<JobMatch> vacantesCompatibles,
-        Double confianza
+        Double confianza,
+        String aiRecommendation
 ) {
 }
