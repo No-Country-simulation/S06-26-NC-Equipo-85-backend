@@ -46,38 +46,4 @@ public class OrientationController {
     public HealthResponse checkHealth(@Valid @RequestBody HealthRequest request) {
         return orientationService.checkHealth(request);
     }
-
-    /**
-     * Obtiene las vacantes compatibles para el usuario autenticado.
-     *
-     * @param currentUser usuario autenticado, resuelto desde el JWT
-     * @return lista de vacantes compatibles
-     */
-    @GetMapping("/jobs/matches")
-    @ResponseStatus(HttpStatus.OK)
-    @SecurityRequirement(name = "bearerAuth")
-    public List<JobMatchResponse> getJobMatches(@AuthenticationPrincipal User currentUser) {
-        return orientationService.getJobMatches(currentUser.getId());
-    }
-
-    @GetMapping("/jobs/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    @SecurityRequirement(name = "bearerAuth")
-    public Job getJobById(@PathVariable UUID id) {
-        return orientationService.getJobById(id);
-    }
-
-    @GetMapping("/skills")
-    @ResponseStatus(HttpStatus.OK)
-    @SecurityRequirement(name = "bearerAuth")
-    public List<SkillResponse> getSkills() {
-        return orientationService.getSkills();
-    }
-
-    @GetMapping("/courses")
-    @ResponseStatus(HttpStatus.OK)
-    @SecurityRequirement(name = "bearerAuth")
-    public List<CourseResponse> getCourses() {
-        return orientationService.getCourses();
-    }
 }
