@@ -7,6 +7,7 @@ import com.appbit.job.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class JobService {
         return List.of();
     }
 
+    @Transactional(readOnly = true)
     public JobDetailResponse getJobById(UUID id) {
 
         Job job = jobRepository.findById(id)
