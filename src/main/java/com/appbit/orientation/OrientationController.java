@@ -1,11 +1,17 @@
 package com.appbit.orientation;
 
+import com.appbit.course.dto.CourseResponse;
 import com.appbit.course.model.Course;
+import com.appbit.job.dto.JobMatchResponse;
 import com.appbit.job.model.Job;
 import com.appbit.orientation.dto.*;
+import com.appbit.skill.dto.SkillResponse;
 import com.appbit.skill.model.Skill;
+import com.appbit.user.model.User;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,45 +27,23 @@ public class OrientationController {
         this.orientationService = orientationService;
     }
 
+    /**
+     * Genera una orientación profesional para el usuario autenticado.
+     *
+     * @param currentUser usuario autenticado, resuelto desde el JWT
+     * @return resultado de orientación profesional
+     */
     @PostMapping("/v1/guidance")
     @ResponseStatus(HttpStatus.OK)
-    public OrientationResponse orient(@Valid @RequestBody OrientationRequest request) {
-        return orientationService.orient(request);
+    @SecurityRequirement(name = "bearerAuth")
+    public OrientationResponse orient(@AuthenticationPrincipal User currentUser) {
+        return orientationService.orient(currentUser.getId());
     }
 
     @PostMapping("/health")
     @ResponseStatus(HttpStatus.OK)
+    @SecurityRequirement(name = "bearerAuth")
     public HealthResponse checkHealth(@Valid @RequestBody HealthRequest request) {
         return orientationService.checkHealth(request);
-    }
-
-    /**
-     * Obtiene las vacantes compatibles para un usuario.
-     *
-     * @param userId identificador del usuario
-     * @return lista de vacantes compatibles
-     */
-    @GetMapping("/jobs/matches")
-    @ResponseStatus(HttpStatus.OK)
-    public List<JobMatch> getJobMatches(@RequestParam UUID userId) {
-        return orientationService.getJobMatches(userId);
-    }
-
-    @GetMapping("/jobs/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Job getJobById(@PathVariable UUID id) {
-        return orientationService.getJobById(id);
-    }
-
-    @GetMapping("/skills")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Skill> getSkills() {
-        return orientationService.getSkills();
-    }
-
-    @GetMapping("/courses")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Course> getCourses() {
-        return orientationService.getCourses();
     }
 }

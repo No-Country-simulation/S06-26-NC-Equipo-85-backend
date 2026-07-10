@@ -126,7 +126,6 @@ public class HealthService {
                                         HttpStatus.BAD_GATEWAY, "Gemini API error: " + body)))
                 .bodyToMono(JsonNode.class)
                 .block();
-
         return extractTextFromResponse(geminiResponse);
     }
 
@@ -175,8 +174,11 @@ public class HealthService {
                         "parts", List.of(Map.of("text", userText))
                 )),
                 "generationConfig", Map.of(
-                        "temperature", 0.9,
-                        "maxOutputTokens", 512
+                        "temperature", 0.8,
+                        "maxOutputTokens", 1024,
+                        "thinkingConfig", Map.of(
+                                "thinkingBudget", 0
+                        )
                 )
         );
     }

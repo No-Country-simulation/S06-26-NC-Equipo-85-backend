@@ -1,7 +1,10 @@
 package com.appbit.orientation;
 
+import com.appbit.course.dto.CourseResponse;
 import com.appbit.course.model.Course;
 import com.appbit.course.repository.CourseRepository;
+import com.appbit.gemini.service.GeminiService;
+import com.appbit.job.dto.JobMatchResponse;
 import com.appbit.job.model.Job;
 import com.appbit.job.model.JobSkill;
 import com.appbit.job.repository.JobRepository;
@@ -9,6 +12,7 @@ import com.appbit.orientation.dto.*;
 import com.appbit.profile.model.Profile;
 import com.appbit.profile.model.ProfileSkill;
 import com.appbit.profile.repository.ProfileRepository;
+import com.appbit.skill.dto.SkillResponse;
 import com.appbit.skill.model.Skill;
 import com.appbit.skill.repository.SkillRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,7 @@ public class OrientationService {
     private final JobRepository jobRepository;
     private final CourseRepository courseRepository;
     private final SkillRepository skillRepository;
+    private final GeminiService geminiService;
 
     /**
      * Genera una orientación profesional basada en el perfil del usuario.
@@ -34,14 +39,14 @@ public class OrientationService {
      * <p>Actualmente devuelve información simulada mientras se implementa
      * la lógica real del motor de matching.</p>
      *
-     * @param request solicitud de orientación
+     * @param userId identificador del usuario autenticado
      * @return resultado de orientación profesional
      */
     @Transactional(readOnly = true)
-    public OrientationResponse orient(OrientationRequest request) {
+    public OrientationResponse orient(UUID userId) {
 
         ///Obtiene el perfil asociado al usuario solicitado.
-        Profile profile = profileRepository.findById(request.userId())
+        Profile profile = profileRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Perfil no encontrado"));
 
         /**
@@ -174,12 +179,37 @@ public class OrientationService {
                 ? 100.0
                 : (double) gapItems.size() / (userSkills.size() + gapItems.size()) * 100;
 
+        String prompt = """
+        Eres un orientador profesional.
+    
+        Analiza la siguiente información y genera una recomendación breve (máximo 5 líneas).
+    
+        Gap: %s
+    
+        Skills faltantes:
+        %s
+    
+        Cursos sugeridos:
+        %s
+    
+        Vacantes compatibles:
+        %s
+        """.formatted(
+                    gapPorcentual,
+                    gapItems,
+                    suggestedCourses,
+                    jobMatches
+            );
+
+        String aiRecommendation = geminiService.generateRecommendation(prompt);
+
         return new OrientationResponse(
                 gapPorcentual,
                 gapItems,
                 suggestedCourses,
                 jobMatches,
-                confianza
+                confianza,
+                aiRecommendation
         );
     }
 
@@ -196,7 +226,8 @@ public class OrientationService {
      * @param userId identificador del usuario
      * @return lista de vacantes con su porcentaje de compatibilidad
      */
-    public List<JobMatch> getJobMatches(UUID userId) {
+    @Transactional(readOnly = true)
+    public List<JobMatchResponse> getJobMatches(UUID userId) {
 
         /**
          * Obtiene el perfil del usuario.
@@ -220,7 +251,7 @@ public class OrientationService {
         /**
          * Almacena las vacantes compatibles.
          */
-        List<JobMatch> jobMatches = new ArrayList<>();
+        List<JobMatchResponse> jobMatches = new ArrayList<>();
 
         /**
          * Calcula el porcentaje de compatibilidad para cada vacante.
@@ -246,7 +277,7 @@ public class OrientationService {
                     : (double) coincidencias / jobSkills.size() * 100;
 
             jobMatches.add(
-                    new JobMatch(
+                    new JobMatchResponse(
                             job.getId(),
                             job.getCompany(),
                             job.getTitle(),
@@ -274,8 +305,14 @@ public class OrientationService {
      *
      * @return listado de habilidades
      */
-    public List<Skill> getSkills() {
-        return skillRepository.findAll();
+    public List<SkillResponse> getSkills() {
+        return skillRepository.findAll()
+                .stream()
+                .map(skill -> new SkillResponse(
+                        skill.getId(),
+                        skill.getName()
+                ))
+                .toList();
     }
 
     /**
@@ -283,7 +320,14 @@ public class OrientationService {
      *
      * @return listado de cursos
      */
-    public List<Course> getCourses() {
-        return courseRepository.findAll();
+    public List<CourseResponse> getCourses() {
+        return courseRepository.findAll()
+                .stream()
+                .map(course -> new CourseResponse(
+                        course.getId(),
+                        course.getName(),
+                        course.getProvider()
+                ))
+                .toList();
     }
 }
